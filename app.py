@@ -103,37 +103,38 @@ def dashboard():
     # Generate graph
     graph_path = generate_graph(user_id, current_month)
     
-    # Get current month stats
     with get_db() as conn:
         cursor = conn.cursor()
         
-        # Get income
+        # Get current month income
         cursor.execute('''
             SELECT COALESCE(SUM(amount), 0) 
             FROM transactions 
             WHERE user_id = ? AND type = 'Income' AND strftime('%Y-%m', date) = ?
         ''', (user_id, current_month))
-        income = cursor.fetchone()[0]
+        income = cursor.fetchone()[0] or 0
         
-        # Get expenses
+        # Get current month expenses
         cursor.execute('''
             SELECT COALESCE(SUM(amount), 0) 
             FROM transactions 
             WHERE user_id = ? AND type = 'Expense' AND strftime('%Y-%m', date) = ?
         ''', (user_id, current_month))
-        expenses = cursor.fetchone()[0]
+        expenses = cursor.fetchone()[0] or 0
         
-        savings = income - expenses
+        # Calculate savings (ensure this is correct)
+        savings = float(income) - float(expenses)
         
-        # Get outstanding (negative savings from previous months)
+        # Get proper outstanding balance (all previous months)
         cursor.execute('''
-            SELECT COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE -amount END), 0)
+            SELECT 
+                COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
+                COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0)
             FROM transactions
             WHERE user_id = ? AND strftime('%Y-%m', date) < ?
         ''', (user_id, current_month))
-        outstanding = cursor.fetchone()[0]
+        outstanding = cursor.fetchone()[0] or 0
     
-    # Get advice
     advice = analyze_spending(user_id, current_month)
     
     return render_template('dashboard.html', 

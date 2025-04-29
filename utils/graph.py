@@ -9,11 +9,12 @@ def generate_graph(user_id, month):
     conn = sqlite3.connect('expense_data.db')
     cursor = conn.cursor()
     
-    # Get daily data for the month
+    # Get daily data
     cursor.execute('''
-        SELECT date, 
-               SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END) as income,
-               SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END) as expense
+        SELECT 
+            date,
+            SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END) as income,
+            SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END) as expense
         FROM transactions
         WHERE user_id = ? AND strftime('%Y-%m', date) = ?
         GROUP BY date
@@ -22,57 +23,49 @@ def generate_graph(user_id, month):
     
     data = cursor.fetchall()
     
-    # Prepare data
-    dates = []
-    daily_income = []
-    daily_expense = []
+    if not data:
+        # Return a default empty graph path if no data
+        return None
     
-    for row in data:
-        dates.append(row[0])
-        daily_income.append(row[1])
-        daily_expense.append(row[2])
+    dates = [row[0][-2:] for row in data]  # Get just the day part
+    income = [row[1] for row in data]
+    expenses = [row[2] for row in data]
     
     # Calculate cumulative values
     cum_income = []
-    cum_expense = []
+    cum_expenses = []
     cum_savings = []
-    total_income = 0
-    total_expense = 0
+    total_i = 0
+    total_e = 0
     
-    for i, e in zip(daily_income, daily_expense):
-        total_income += i
-        total_expense += e
-        cum_income.append(total_income)
-        cum_expense.append(total_expense)
-        cum_savings.append(total_income - total_expense)
+    for i, e in zip(income, expenses):
+        total_i += i
+        total_e += e
+        cum_income.append(total_i)
+        cum_expenses.append(total_e)
+        cum_savings.append(total_i - total_e)
     
-    # Create the plot with larger figure size
-    plt.figure(figsize=(12, 8))
+    # Create figure with larger size
+    plt.figure(figsize=(10, 6))
     
-    # Plot lines with thicker lines and distinct colors
-    plt.plot(dates, cum_income, label='Cumulative Income', color='#2ecc71', linewidth=3, marker='o')
-    plt.plot(dates, cum_expense, label='Cumulative Expenses', color='#e74c3c', linewidth=3, marker='o')
-    plt.plot(dates, cum_savings, label='Savings', color='#3498db', linewidth=3, marker='o')
+    # Plot with thicker lines
+    plt.plot(dates, cum_income, label='Income', color='green', linewidth=3)
+    plt.plot(dates, cum_expenses, label='Expenses', color='red', linewidth=3)
+    plt.plot(dates, cum_savings, label='Savings', color='blue', linewidth=3)
     
     # Style the plot
-    plt.title(f'Financial Overview - {datetime.strptime(month, "%Y-%m").strftime("%B %Y")}', fontsize=16)
-    plt.xlabel('Date', fontsize=14)
-    plt.ylabel('Amount (₹)', fontsize=14)
-    plt.legend(fontsize=12)
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.title(f'Financial Overview - {datetime.strptime(month, "%Y-%m").strftime("%B %Y")}')
+    plt.xlabel('Day of Month')
+    plt.ylabel('Amount (¥)')
+    plt.legend()
+    plt.grid(True)
     
-    # Format x-axis
-    plt.xticks(rotation=45, ha='right', fontsize=10)
-    plt.tight_layout()
+    # Create graphs directory if not exists
+    os.makedirs('static/graphs', exist_ok=True)
+    graph_path = f'static/graphs/graph_{user_id}_{month}.png'
     
-    # Ensure the graphs directory exists
-    graph_dir = os.path.join('static', 'graphs')
-    os.makedirs(graph_dir, exist_ok=True)
-    
-    # Save the plot
-    graph_filename = f'graphs/graph_{user_id}_{month}.png'
-    graph_path = os.path.join('static', graph_filename)
+    # Save with higher DPI
     plt.savefig(graph_path, dpi=100, bbox_inches='tight')
     plt.close()
     
-    return graph_filename
+    return f'graphs/graph_{user_id}_{month}.png'
