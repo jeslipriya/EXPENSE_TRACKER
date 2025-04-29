@@ -29,6 +29,14 @@
                 ₹{{ "%.2f"|format(outstanding) }}
             </p>
         </div>
+
+        <div class="stat-card">
+            <h3>Balance</h3>
+            <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
+                ₹{{ "%.2f"|format(balance) }}
+            </p>
+
+        </div>
     </div>
     
     <div class="graph-container">

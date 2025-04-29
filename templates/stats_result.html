@@ -13,14 +13,19 @@
         </div>
         
         <div class="stat-card">
-            <h3>Spending</h3>
+            <h3>Expenses</h3>
             <p>₹{{ "%.2f"|format(expenses) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Savings</h3>
-            <p class="{% if savings < 0 %}negative{% else %}positive{% endif %}">
-                ₹{{ "%.2f"|format(savings) }}
+            <p>₹{{ "%.2f"|format(savings) }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Balance</h3>
+            <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
+                ₹{{ "%.2f"|format(balance) }}
             </p>
         </div>
     </div>

@@ -122,14 +122,22 @@ def dashboard():
         ''', (user_id, current_month))
         expenses = cursor.fetchone()[0] or 0
         
-        # Calculate savings (ensure this is correct)
-        savings = float(income) - float(expenses)
+        # Get current month savings
+        cursor.execute('''
+            SELECT COALESCE(SUM(amount), 0) 
+            FROM transactions 
+            WHERE user_id = ? AND type = 'Savings' AND strftime('%Y-%m', date) = ?
+        ''', (user_id, current_month))
+        savings = cursor.fetchone()[0] or 0
+        
+        # Calculate balance (Income - Expenses - Savings)
+        balance = float(income) - float(expenses) - float(savings)
         
         # Get proper outstanding balance (all previous months)
         cursor.execute('''
             SELECT 
                 COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
-                COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0)
+                COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
             FROM transactions
             WHERE user_id = ? AND strftime('%Y-%m', date) < ?
         ''', (user_id, current_month))
@@ -142,6 +150,7 @@ def dashboard():
                          income=income,
                          expenses=expenses,
                          savings=savings,
+                         balance=balance,
                          outstanding=outstanding,
                          advice=advice)
 
@@ -202,12 +211,14 @@ def stats_result():
     
     income = sum(t['amount'] for t in filtered_data if t['type'] == 'Income')
     expenses = sum(t['amount'] for t in filtered_data if t['type'] == 'Expense')
-    savings = income - expenses
+    savings = sum(t['amount'] for t in filtered_data if t['type'] == 'Savings')
+    balance = income - expenses - savings
     
     return render_template('stats_result.html',
                          income=income,
                          expenses=expenses,
                          savings=savings,
+                         balance=balance,
                          start_date=start_date,
                          end_date=end_date,
                          category=category)
