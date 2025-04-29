@@ -22,15 +22,15 @@ def generate_graph(user_id, month):
     
     data = cursor.fetchall()
     
-    if not data:
-        # Return a default empty graph
-        dates = []
-        income = []
-        expenses = []
-    else:
-        dates = [row[0] for row in data]
-        income = [row[1] for row in data]
-        expenses = [row[2] for row in data]
+    # Prepare data
+    dates = []
+    daily_income = []
+    daily_expense = []
+    
+    for row in data:
+        dates.append(row[0])
+        daily_income.append(row[1])
+        daily_expense.append(row[2])
     
     # Calculate cumulative values
     cum_income = []
@@ -39,46 +39,40 @@ def generate_graph(user_id, month):
     total_income = 0
     total_expense = 0
     
-    for i, e in zip(income, expenses):
+    for i, e in zip(daily_income, daily_expense):
         total_income += i
         total_expense += e
         cum_income.append(total_income)
         cum_expense.append(total_expense)
         cum_savings.append(total_income - total_expense)
     
-    # Create the plot
-    plt.figure(figsize=(10, 6))
+    # Create the plot with larger figure size
+    plt.figure(figsize=(12, 8))
     
-    # Plot lines
-    plt.plot(dates, cum_income, label='Cumulative Income', color='green', marker='o')
-    plt.plot(dates, cum_expense, label='Cumulative Expenses', color='red', marker='o')
-    plt.plot(dates, cum_savings, label='Savings', color='blue', marker='o')
+    # Plot lines with thicker lines and distinct colors
+    plt.plot(dates, cum_income, label='Cumulative Income', color='#2ecc71', linewidth=3, marker='o')
+    plt.plot(dates, cum_expense, label='Cumulative Expenses', color='#e74c3c', linewidth=3, marker='o')
+    plt.plot(dates, cum_savings, label='Savings', color='#3498db', linewidth=3, marker='o')
     
-    # Add title and labels
-    month_name = datetime.strptime(month, '%Y-%m').strftime('%B %Y')
-    plt.title(f'Financial Overview - {month_name}')
-    plt.xlabel('Date')
-    plt.ylabel('Amount (₹)')
-    plt.legend()
-    plt.grid(True)
+    # Style the plot
+    plt.title(f'Financial Overview - {datetime.strptime(month, "%Y-%m").strftime("%B %Y")}', fontsize=16)
+    plt.xlabel('Date', fontsize=14)
+    plt.ylabel('Amount (₹)', fontsize=14)
+    plt.legend(fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.7)
     
-    # Rotate x-axis labels for better readability
-    plt.xticks(rotation=45)
+    # Format x-axis
+    plt.xticks(rotation=45, ha='right', fontsize=10)
     plt.tight_layout()
     
+    # Ensure the graphs directory exists
+    graph_dir = os.path.join('static', 'graphs')
+    os.makedirs(graph_dir, exist_ok=True)
+    
     # Save the plot
-    static_dir = 'static'
-    if not os.path.exists(static_dir):
-        os.makedirs(static_dir)
-    
     graph_filename = f'graphs/graph_{user_id}_{month}.png'
-    graph_path = os.path.join(static_dir, graph_filename)
-    
-    graph_dir = os.path.join(static_dir, 'graphs')
-    if not os.path.exists(graph_dir):
-        os.makedirs(graph_dir)
-    
-    plt.savefig(graph_path)
+    graph_path = os.path.join('static', graph_filename)
+    plt.savefig(graph_path, dpi=100, bbox_inches='tight')
     plt.close()
     
     return graph_filename
