@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics Results{% endblock %}
+
+{% block content %}
+    <h2>Statistics Results</h2>
+    <p>From {{ start_date }} to {{ end_date }}{% if category %} in category "{{ category }}"{% endif %}</p>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Income</h3>
+            <p>₹{{ "%.2f"|format(income) }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Spending</h3>
+            <p>₹{{ "%.2f"|format(expenses) }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Savings</h3>
+            <p class="{% if savings < 0 %}negative{% else %}positive{% endif %}">
+                ₹{{ "%.2f"|format(savings) }}
+            </p>
+        </div>
+    </div>
+    
+    <a href="{{ url_for('statistics') }}" class="btn">New Query</a>
+    <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+    <h2>Get Statistics</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="start_date">Start Date</label>
+            <input type="date" id="start_date" name="start_date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="end_date">End Date</label>
+            <input type="date" id="end_date" name="end_date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Category (optional)</label>
+            <input type="text" id="category" name="category">
+        </div>
+        
+        <button type="submit" class="btn">Get Statistics</button>
+        <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+    </form>
+{% endblock %}
