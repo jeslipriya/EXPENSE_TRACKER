@@ -8,7 +8,7 @@ from utils.filters import filter_data
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+app.secret_key = 'awsedrftgyhujikolp'
 DATABASE = 'expense_data.db'
 
 # Initialize database
