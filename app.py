@@ -132,7 +132,7 @@ def dashboard():
         savings = cursor.fetchone()[0] or 0
         
         # Calculate balance (Income - Expenses - Savings)
-        balance = float(income) - float(expenses) - float(savings)
+        balance = max(0, float(income) - float(expenses) - float(savings))
         
         # Get proper outstanding balance (all previous months)
         cursor.execute('''
@@ -142,7 +142,11 @@ def dashboard():
             FROM transactions
             WHERE user_id = ? AND strftime('%Y-%m', date) < ?
         ''', (user_id, current_month))
-        outstanding = cursor.fetchone()[0] or 0
+        result = cursor.fetchone()[0] or 0
+        outstanding = result[0] if result and result[0] is not None else 0
+        print("Current Month:", current_month)
+        cursor.execute("SELECT date FROM transactions WHERE user_id = ?", (user_id,))
+        print("Dates in DB:", cursor.fetchall())
     
     advice = analyze_spending(user_id, current_month)
     
