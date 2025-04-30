@@ -213,3 +213,15 @@ header a:hover {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.category-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 0 10px;
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 40px; /* adjust as needed */
+}

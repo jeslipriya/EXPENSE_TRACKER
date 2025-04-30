@@ -29,12 +29,17 @@
             </p>
         </div>
 
-        {% for cat, amt in category_expenses.items() %}
-        <div class="category-card">
-            <h5>{{ cat }}</h5>
-            <p style="color: red;">₹{{ "{:,.2f}".format(amt) }}</p>
+        <div class="category-section">
+            <h3>Expense Breakdown by Category</h3>
+            <div class="category-container">
+                {% for cat, amt in category_expenses.items() %}
+                <div class="category-card">
+                    <h5>{{ cat }}</h5>
+                    <p style="color: red;">₹{{ "{:,.2f}".format(amt) }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
     </div>
     
     <a href="{{ url_for('statistics') }}" class="btn">New Query</a>
