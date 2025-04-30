@@ -61,7 +61,7 @@ def generate_graph(user_id, month):
     plt.bar(x, cum_expenses, width=bar_width, label='Expenses', color='red')
     plt.bar([i + bar_width for i in x], cum_savings, width=bar_width, label='Savings', color='blue')
     #plt.plot(x, cum_balance, label='Balance', color='purple', linewidth=2, linestyle='--')  # optional line
-    plt.xticks(x, dates)
+    plt.xticks(x, dates)              
 
     # Style
     plt.title(f'Financial Overview - {datetime.strptime(month, "%Y-%m").strftime("%B %Y")}')

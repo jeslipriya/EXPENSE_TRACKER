@@ -130,6 +130,10 @@ header a:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.balance-card {
+    grid-column: span 2; /* makes balance card span 2 columns */
+}
+
 .stat-card h3 {
     margin-top: 0;
     color: #35424a;

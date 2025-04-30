@@ -24,6 +24,7 @@ def init_db():
                 password TEXT NOT NULL
             )
         ''')
+        
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS transactions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -179,6 +180,7 @@ def add_expense():
             conn.commit()
         
         flash('Transaction added successfully!')
+
         return redirect(url_for('dashboard'))
     
     return render_template('add_expense.html', datetime=datetime)
