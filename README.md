@@ -56,8 +56,8 @@ A full-stack expense management web application that allows users to track incom
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/expense-tracker.git
-cd expense-tracker
+git clone https://github.com/jeslipriya/EXPENSE_TRACKER.git
+cd EXPENSE_TRACKER
 ```
 
 2. Install dependencies:
