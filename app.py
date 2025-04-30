@@ -10,6 +10,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'awsedrftgyhujikolp'
 DATABASE = 'expense_data.db'
+app.config['VERSION'] = str(datetime.now().timestamp())
 
 # Initialize database
 def init_db():
@@ -152,7 +153,8 @@ def dashboard():
                          savings=savings,
                          balance=balance,
                          outstanding=outstanding,
-                         advice=advice)
+                         advice=advice,
+                         config=app.config)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_expense():

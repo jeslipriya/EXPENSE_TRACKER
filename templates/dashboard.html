@@ -41,7 +41,7 @@
     
     <div class="graph-container">
         {% if graph_path %}
-            <img src="{{ url_for('static', filename=graph_path) }}" alt="Financial Graph">
+        <img src="{{ url_for('static', filename=graph_path.replace('static/', '')) }}?v={{ config['VERSION'] }}" alt="Financial Graph">
         {% else %}
             <p class="no-data">No financial data available for this period</p>
         {% endif %}
