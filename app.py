@@ -6,6 +6,7 @@ from utils.graph import generate_graph
 from utils.analyzer import analyze_spending
 from utils.filters import filter_data
 import os
+from collections import defaultdict
 
 app = Flask(__name__)
 app.secret_key = 'awsedrftgyhujikolp'
@@ -219,15 +220,22 @@ def stats_result():
     expenses = sum(t['amount'] for t in filtered_data if t['type'] == 'Expense')
     savings = sum(t['amount'] for t in filtered_data if t['type'] == 'Savings')
     balance = income - expenses - savings
-    
+
+    # 🍱 Group expenses by category
+    category_expenses = defaultdict(float)
+    for t in filtered_data:
+        if t['type'] == 'Expense':
+            category_expenses[t['category']] += t['amount']
+
     return render_template('stats_result.html',
-                         income=income,
-                         expenses=expenses,
-                         savings=savings,
-                         balance=balance,
-                         start_date=start_date,
-                         end_date=end_date,
-                         category=category)
+                           income=income,
+                           expenses=expenses,
+                           savings=savings,
+                           balance=balance,
+                           start_date=start_date,
+                           end_date=end_date,
+                           category_expenses=dict(category_expenses),  # 💡 Pass it to template
+                           category=category)
 
 if __name__ == '__main__':
     app.run(debug=True)
