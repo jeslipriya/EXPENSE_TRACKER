@@ -1,10 +1,11 @@
 # Ignore all PNG images
+graphs/
 *.png
 
 # Ignore SQLite database files
-*.db
+
+expense_data.db
 
 # Optional (and smart) additions:
 __pycache__/
 *.pyc
-.env
