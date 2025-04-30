@@ -1,2 +1,10 @@
+# Ignore all PNG images
 *.png
+
+# Ignore SQLite database files
 *.db
+
+# Optional (and smart) additions:
+__pycache__/
+*.pyc
+.env
