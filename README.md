@@ -2,97 +2,100 @@
 
 A full-stack expense management web application that allows users to track income, expenses, savings, and visualize financial data using interactive graphs. Built using **Flask**, **SQLite**, and **Matplotlib**, it offers insights and spending suggestions based on user input.
 
----
-
 ## Features
 
-- ✅ Add and manage income and expenses
-- 📊 Real-time dashboard displaying key financial metrics
-- 📅 Date and category-based statistics with filters
-- 📈 Graph-based data visualization (using Matplotlib)
-- 🤖 Expense analyzer with personalized suggestions
-
----
+- ✅ User authentication (login/register)
+- ➕ Add income, expenses, and savings transactions
+- 📊 Real-time dashboard with financial metrics
+- 📅 Date and category-based statistics
+- 📈 Interactive financial graphs
+- 🤖 Smart spending analyzer with advice
+- 💳 Balance tracking (Income - Expenses - Savings)
 
 ## Tech Stack
 
-| Layer         | Technology           |
-|---------------|----------------------|
-| Frontend      | HTML, CSS            |
-| Backend       | Python (Flask)       |
-| Database      | SQLite3              |
-| Visualization | Matplotlib           |
-
----
+| Component          | Technology   |
+|--------------------|--------------|
+| Frontend           | HTML5, CSS3  |
+| Backend            | Python Flask |
+| Database           | SQLite3      |
+| Data Visualization | Matplotlib   |
 
 ## Project Structure
-```
-    EXPENSE_TRACKER/ 
-    │ ├── static/ 
-        │ ├── css/ 
-            │ │ └── style.css 
-        │ └── graphs/ 
-            │ └── graph_X.png (auto-generated) 
-    │ ├── templates/ 
-    │ ├── base.html 
-    │ ├── index.html 
-    │ ├── dashboard.html 
-    │ ├── add_expense.html 
-    │ ├── statistics.html 
-    │ └── stats_result.html 
-    │ ├── utils/ 
-        │ ├── analyzer.py 
-        │ ├── filters.py 
-        │ └── graph.py 
-    │ ├── app.py 
-    ├── expense_data.db (auto-gemerated)
-    ├── requirements.txt 
-    └── .gitignore
-```
 
----
-
+```
+        EXPENSE_TRACKER/ 
+            │ ├── static/ 
+                │ ├── css/ 
+                │ │ └── style.css 
+                │ └── graphs/ 
+                │ │ └── graph_X.png (auto-generated) 
+            │ ├── templates/ 
+                │ ├── base.html 
+                │ ├── idex.html 
+                │ ├── dashboard.html 
+                │ ├── add_expense.html 
+                │ ├── statistics.html 
+                │ └── stats_result.html 
+            │ ├── utils/ 
+                │ ├── analyzer.py 
+                │ ├── filters.py 
+                │ └── graph.py 
+            │ ├── app.py 
+            ├── expense_data.db (auto-gemerated)
+            ├── requirements.txt 
+            └── .gitignore
+```
 ## Getting Started
 
-### 1. Clone the Repository
+### Prerequisites
+- Python 3.6+
+- pip
 
+### Installation
+
+1. Clone the repository:
 ```bash
 git clone https://github.com/your-username/expense-tracker.git
 cd expense-tracker
+```
 
-### 2. Install Dependencies
-
+2. Install dependencies:
 ```
 pip install -r requirements.txt
+```
 
-### 3. Run the Application
+3. Run the application:
 ```
 python app.py
+```
 
-Then open your browser and go to: http://127.0.0.1:5000/
+4. Access the application at: ```http://127.0.0.1:5000/```
 
-### .gitignore Configuration
+## Configuration
 
-To prevent committing generated graphs and the SQLite database:
-
+The .gitignore file include:
+```
 /static/graphs/
 *.png
 *.db
+__pycache__/
+*.pyc
+```
 
-### Future Improvements
+## Future Improvements
 
-User authentication and login system
+1. User profile management
+2. Data export (PDF/CSV)
+3. Monthly budget goals
+4. Recurring transactions
+5. Email notifications
+6. Mobile-responsive design
 
-Export data to PDF/CSV
+## License
 
-Monthly budgeting goals
+This project is licensed under the MIT License 
 
-Email reports/reminders
-
-### License
-
-This project is open-source and available under the MIT License.
-
-### Author
-
-Developed by Jesli, Computer Science Student
+## Author
+### Jesli
+Computer Science Student
