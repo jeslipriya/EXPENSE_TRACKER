@@ -85,12 +85,12 @@ __pycache__/
 
 ## Future Improvements
 
-1. User profile management
-2. Data export (PDF/CSV)
-3. Monthly budget goals
-4. Recurring transactions
-5. Email notifications
-6. Mobile-responsive design
+- User profile management
+- Data export (PDF/CSV)
+- Monthly budget goals
+- Recurring transactions
+- Email notifications
+- Mobile-responsive design
 
 ## License
 
