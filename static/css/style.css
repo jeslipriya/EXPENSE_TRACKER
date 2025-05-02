@@ -131,7 +131,15 @@ header a:hover {
 }
 
 .balance-card {
-    grid-column: span 2; /* makes balance card span 2 columns */
+    flex: 1 1 200px; /* grow-shrink-basis */
+    max-width: 250px;
+    min-width: 200px;
+    margin: 10px;
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card h3 {

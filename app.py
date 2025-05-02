@@ -138,11 +138,11 @@ def dashboard():
         
         # Get proper outstanding balance (all previous months)
         cursor.execute('''
-    SELECT 
+        SELECT 
         COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
         COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
-    FROM transactions
-    WHERE user_id = ?
+        FROM transactions
+        WHERE user_id = ?
 ''', (user_id,))
         result = cursor.fetchone()[0]
         outstanding = result if result is not None else 0
