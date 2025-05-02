@@ -150,14 +150,15 @@ def dashboard():
         
         # Get proper outstanding balance (all previous months)
         cursor.execute('''
-        SELECT 
-        COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
-        COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
-        FROM transactions
-        WHERE user_id = ?
+            SELECT 
+            COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0),
+            COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
+            FROM transactions
+            WHERE user_id = ?
         ''', (user_id,))
-        result = cursor.fetchone()[0]
-        outstanding = result if result is not None else 0
+        income, outflow = cursor.fetchone()
+        outstanding = max(outflow - income, 0)
+
         
         #print("result= "result)
 
@@ -329,4 +330,4 @@ def stats_result():
                            currency=currency)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
