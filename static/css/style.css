@@ -308,69 +308,72 @@ header a:hover {
 
 @media (max-width: 768px) {
     .container {
-      width: 95%;
-      padding: 10px;
+        width: 95%;
+        padding: 10px;
     }
-  
+    
+    /* Flex container adjustments */
     .stats-container,
-    .category-container {
-      flex-direction: column;
-      align-items: center;
+    .category-container,
+    .header-container {
+        flex-direction: column;
+        align-items: stretch; /* Changed from center to stretch for better full-width behavior */
     }
-  
+    
+    /* Card adjustments */
     .stat-card,
     .category-card,
     .category-section,
     .balance-card {
-      margin: 10px 0;
-      width: 100%;
-      max-width: 100%;
+        margin: 10px 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box; /* Ensures padding is included in width */
     }
-  
+    
+    /* Navigation adjustments */
     header nav,
     header ul {
-      float: none;
-      text-align: center;
-    }
-  
-    header li {
-      float: none;
-      display: block;
-      padding: 10px 0;
-    }
-  
-    .header-container {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .profile-btn {
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    
-      .nav-links {
+        float: none;
+        text-align: left; /* Changed from center to left for better hierarchy */
         width: 100%;
+    }
+    
+    header li {
+        display: block;
+        padding: 10px 0;
+        width: 100%;
+    }
+    
+    /* Profile button */
+    .profile-btn {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    /* Nav links specific styling */
+    .nav-links {
         display: flex;
         flex-direction: column;
         padding: 0;
-      }
-    
-      .nav-links li {
         width: 100%;
-        text-align: left;
-        padding: 10px 0;
-      }
+    }
     
-      .nav-links a {
+    .nav-links a {
         display: block;
         width: 100%;
-      }
-  }
-  
+        padding: 10px 0; /* Added padding for better touch targets */
+    }
+    
+    /* Added for better mobile interaction */
+    .nav-links li:hover {
+        background-color: rgba(0,0,0,0.05); /* Visual feedback for touch */
+    }
+    
+    /* Ensure no horizontal scrolling */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
