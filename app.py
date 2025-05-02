@@ -138,15 +138,17 @@ def dashboard():
         
         # Get proper outstanding balance (all previous months)
         cursor.execute('''
-            SELECT 
-                COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
-                COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
-            FROM transactions
-            WHERE user_id = ? AND strftime('%Y-%m', date) < ?
-        ''', (user_id, current_month))
-        result = cursor.fetchone()[0] or 0
-        outstanding = result[0] if result and result[0] is not None else 0
-    
+    SELECT 
+        COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) -
+        COALESCE(SUM(CASE WHEN type IN ('Expense', 'Savings') THEN amount ELSE 0 END), 0)
+    FROM transactions
+    WHERE user_id = ?
+''', (user_id,))
+        result = cursor.fetchone()[0]
+        outstanding = result if result is not None else 0
+        
+        #print('Income - Expenses - Savings till now:', result)
+
     advice = analyze_spending(user_id, current_month)
     
     return render_template('dashboard.html', 
