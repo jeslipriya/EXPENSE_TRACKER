@@ -8,25 +8,25 @@
     <div class="stats-container">
         <div class="stat-card">
             <h3>Income</h3>
-            <p>₹{{ "%.2f"|format(income) }}</p>
+            <p>{{ currency }}{{ "%.2f"|format(income) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Expenses</h3>
-            <p>₹{{ "%.2f"|format(expenses) }}</p>
+            <p>{{ currency }}{{ "%.2f"|format(expenses) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Savings</h3>
             <p class="{% if savings < 0 %}negative{% else %}positive{% endif %}">
-                ₹{{ "%.2f"|format(savings) }}
+                {{ currency }}{{ "%.2f"|format(savings) }}
             </p>
         </div>
         
         <div class="stat-card">
             <h3>Outstanding</h3>
             <p class="{% if outstanding < 0 %}negative{% else %}positive{% endif %}">
-                ₹{{ "%.2f"|format(outstanding) }}
+                {{ currency }}{{ "%.2f"|format(outstanding) }}
             </p>
         </div>
 
@@ -38,7 +38,7 @@
         <div class="stat-card balance-card">
             <h3>Balance</h3>
             <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
-                ₹{{ "%.2f"|format(balance) }}
+                {{ currency }}{{ "%.2f"|format(balance) }}
             </p>
         </div>
     </div>
@@ -54,6 +54,7 @@
     <div>
         <a href="{{ url_for('add_expense') }}" class="btn">Add Expense/Income</a>
         <a href="{{ url_for('statistics') }}" class="btn">Get Statistics</a>
+        <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
     </div>
     
     {% if advice %}

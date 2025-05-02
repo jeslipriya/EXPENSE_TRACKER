@@ -36,6 +36,18 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users (id)
             )
         ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS profiles (
+                user_id INTEGER PRIMARY KEY,
+                full_name TEXT,
+                email TEXT,
+                phone TEXT,
+                address TEXT,
+                currency TEXT DEFAULT '₹',
+                FOREIGN KEY (user_id) REFERENCES users (id)
+            )
+        ''')
         conn.commit()
 
 init_db()
@@ -149,6 +161,11 @@ def dashboard():
         
         #print("result= "result)
 
+        #for profile
+        cursor.execute('SELECT currency FROM profiles WHERE user_id = ?', (user_id,))
+        currency_result = cursor.fetchone()
+        currency = currency_result[0] if currency_result else '₹'
+
     advice = analyze_spending(user_id, current_month)
     
     return render_template('dashboard.html', 
@@ -159,7 +176,72 @@ def dashboard():
                          balance=balance,
                          outstanding=outstanding,
                          advice=advice,
-                         config=app.config)
+                         config=app.config,
+                         currency=currency)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('index'))
+    
+    user_id = session['user_id']
+    
+    if request.method == 'POST':
+        full_name = request.form.get('full_name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        address = request.form.get('address')
+        currency = request.form.get('currency', '₹')
+        
+        with get_db() as conn:
+            cursor = conn.cursor()
+            # Check if profile exists
+            cursor.execute('SELECT 1 FROM profiles WHERE user_id = ?', (user_id,))
+            exists = cursor.fetchone()
+            
+            if exists:
+                # Update existing profile
+                cursor.execute('''
+                    UPDATE profiles 
+                    SET full_name = ?, email = ?, phone = ?, address = ?, currency = ?
+                    WHERE user_id = ?
+                ''', (full_name, email, phone, address, currency, user_id))
+            else:
+                # Insert new profile
+                cursor.execute('''
+                    INSERT INTO profiles (user_id, full_name, email, phone, address, currency)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ''', (user_id, full_name, email, phone, address, currency))
+            
+            conn.commit()
+            flash('Profile updated successfully!')
+            return redirect(url_for('profile'))
+    
+    # GET request - load existing profile
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM profiles WHERE user_id = ?', (user_id,))
+        profile_data = cursor.fetchone()
+    
+    # Convert to dict for easier template handling
+    profile = {
+        'full_name': '',
+        'email': '',
+        'phone': '',
+        'address': '',
+        'currency': '₹'
+    }
+    
+    if profile_data:
+        profile = {
+            'full_name': profile_data[1],
+            'email': profile_data[2],
+            'phone': profile_data[3],
+            'address': profile_data[4],
+            'currency': profile_data[5]
+        }
+    
+    return render_template('profile.html', profile=profile)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_expense():
