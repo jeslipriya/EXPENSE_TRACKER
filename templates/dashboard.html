@@ -33,11 +33,14 @@
         
     </div>
 
-    <div class="stat-card balance-card">
-        <h3>Balance</h3>
-        <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
-            ₹{{ "%.2f"|format(balance) }}
-        </p>
+    <!-- Add a container around your balance card -->
+    <div class="balance-container">
+        <div class="stat-card balance-card">
+            <h3>Balance</h3>
+            <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
+                ₹{{ "%.2f"|format(balance) }}
+            </p>
+        </div>
     </div>
     
     <div class="graph-container">

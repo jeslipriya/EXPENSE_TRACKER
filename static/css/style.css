@@ -130,13 +130,19 @@ header a:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.balance-container {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    /* height: 60vh;  */
+}
+
 .balance-card {
-    flex: 1 1 200px; /* grow-shrink-basis */
+    flex: 0 0 auto; /* Override the flex properties from your original CSS */
     max-width: 250px;
     min-width: 200px;
-    margin: 10px;
     text-align: center;
-    padding: 20px;
+    padding: 30px; /* Increased padding for better visual balance */
     background: #f9f9f9;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
