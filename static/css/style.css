@@ -303,3 +303,74 @@ header a:hover {
 .profile-btn:hover {
     background-color: #3a5a8f;
 }
+
+/* responsive */
+
+@media (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding: 10px;
+    }
+  
+    .stats-container,
+    .category-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .stat-card,
+    .category-card,
+    .category-section,
+    .balance-card {
+      margin: 10px 0;
+      width: 100%;
+      max-width: 100%;
+    }
+  
+    header nav,
+    header ul {
+      float: none;
+      text-align: center;
+    }
+  
+    header li {
+      float: none;
+      display: block;
+      padding: 10px 0;
+    }
+  
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .profile-btn {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      .nav-links {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+    
+      .nav-links li {
+        width: 100%;
+        text-align: left;
+        padding: 10px 0;
+      }
+    
+      .nav-links a {
+        display: block;
+        width: 100%;
+      }
+  }
+  

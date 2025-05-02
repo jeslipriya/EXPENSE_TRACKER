@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker | {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    
     <header>
-        <div class="container">
+        <div class="container header-container">
             <div id="branding">
                 <h1><span class="highlight">Expense Tracker</span></h1>
             </div>
             <nav>
-                <ul>
+                <ul class="nav-links">
                     {% if 'username' in session %}
                         <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('add_expense') }}">Add Transaction</a></li>
@@ -26,7 +28,7 @@
             </nav>
         </div>
     </header>
-
+    
     <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
