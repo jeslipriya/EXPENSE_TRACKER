@@ -77,9 +77,14 @@ python app.py
 
 The .gitignore file include:
 ```
-/static/graphs/
+<!-- graph images -->
+/static/graphs/ 
 *.png
+
+<!-- database -->
 *.db
+
+<!-- complied files -->
 __pycache__/
 *.pyc
 ```
