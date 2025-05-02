@@ -10,7 +10,7 @@ A full-stack expense management web application that allows users to track incom
 - 📅 Date and category-based statistics
 - 📈 Interactive financial graphs
 - 🤖 Smart spending analyzer with advice
-- - User profile management
+- 👤 User profile management
 - 💳 Balance tracking (Income - Expenses - Savings)
 
 ## Tech Stack
