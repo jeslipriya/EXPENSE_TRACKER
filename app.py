@@ -161,7 +161,7 @@ def dashboard():
         
         #print("result= "result)
 
-        #for profile
+        #for currency symbol
         cursor.execute('SELECT currency FROM profiles WHERE user_id = ?', (user_id,))
         currency_result = cursor.fetchone()
         currency = currency_result[0] if currency_result else '₹'
@@ -304,6 +304,13 @@ def stats_result():
     savings = sum(t['amount'] for t in filtered_data if t['type'] == 'Savings')
     balance = income - expenses - savings
 
+    with get_db() as conn:
+        cursor = conn.cursor()
+        # Get user's currency
+        cursor.execute('SELECT currency FROM profiles WHERE user_id = ?', (user_id,))
+        currency_result = cursor.fetchone()
+        currency = currency_result[0] if currency_result else '₹'
+
     # 🍱 Group expenses by category
     category_expenses = defaultdict(float)
     for t in filtered_data:
@@ -318,7 +325,8 @@ def stats_result():
                            start_date=start_date,
                            end_date=end_date,
                            category_expenses=dict(category_expenses),  # 💡 Pass it to template
-                           category=category)
+                           category=category,
+                           currency=currency)
 
 if __name__ == '__main__':
     app.run(debug=True)

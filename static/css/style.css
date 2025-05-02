@@ -282,3 +282,24 @@ header a:hover {
     background-color: #6c757d;
     margin-left: 10px;
 }
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-btn {
+    margin-left: auto; /* Pushes the button to the right */
+    padding: 8px 16px;
+    background-color: #4a6fa5;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.profile-btn:hover {
+    background-color: #3a5a8f;
+}

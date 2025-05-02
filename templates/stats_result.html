@@ -9,23 +9,23 @@
     <div class="stats-container">
         <div class="stat-card">
             <h3>Income</h3>
-            <p>₹{{ "%.2f"|format(income) }}</p>
+            <p>{{ currency }}{{ "%.2f"|format(income) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Expenses</h3>
-            <p>₹{{ "%.2f"|format(expenses) }}</p>
+            <p>{{ currency }}{{ "%.2f"|format(expenses) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Savings</h3>
-            <p>₹{{ "%.2f"|format(savings) }}</p>
+            <p>{{ currency }}{{ "%.2f"|format(savings) }}</p>
         </div>
         
         <div class="stat-card">
             <h3>Balance</h3>
             <p class="{% if balance < 0 %}negative{% else %}positive{% endif %}">
-                ₹{{ "%.2f"|format(balance) }}
+                {{ currency }}{{ "%.2f"|format(balance) }}
             </p>
         </div>
 
@@ -35,7 +35,7 @@
                 {% for cat, amt in category_expenses.items() %}
                 <div class="category-card">
                     <h5>{{ cat }}</h5>
-                    <p style="color: red;">₹{{ "{:,.2f}".format(amt) }}</p>
+                    <p style="color: red;">{{ currency }}{{ "{:,.2f}".format(amt) }}</p>
                 </div>
                 {% endfor %}
             </div>

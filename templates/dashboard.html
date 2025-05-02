@@ -3,7 +3,10 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h2>Welcome, {{ session['username'] }}!</h2>
+    <div class="header-container">
+        <h2>Welcome, {{ session['username'] }}!</h2>
+        <a href="{{ url_for('profile') }}" class="btn profile-btn">My Profile</a>
+    </div>
     
     <div class="stats-container">
         <div class="stat-card">
@@ -54,7 +57,7 @@
     <div>
         <a href="{{ url_for('add_expense') }}" class="btn">Add Expense/Income</a>
         <a href="{{ url_for('statistics') }}" class="btn">Get Statistics</a>
-        <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
+        <!-- <a href="{{ url_for('profile') }}" class="btn">My Profile</a> -->
     </div>
     
     {% if advice %}
