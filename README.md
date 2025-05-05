@@ -87,6 +87,11 @@ The .gitignore file include:
 <!-- complied files -->
 __pycache__/
 *.pyc
+
+<!-- Ignore virtual environment -->
+venv/
+.env
+
 ```
 
 ## Future Improvements
