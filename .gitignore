@@ -8,6 +8,6 @@ expense_data.db
 __pycache__/
 *.pyc
 
-# Ignore virtual environment (if you have one)
+# Ignore virtual environment
 venv/
 .env
