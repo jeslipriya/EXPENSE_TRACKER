@@ -33,7 +33,7 @@ A full-stack expense management web application that allows users to track incom
                 │ │ └── graph_X.png (auto-generated) 
             │ ├── templates/ 
                 │ ├── base.html 
-                │ ├── idex.html 
+                │ ├── index.html 
                 │ ├── dashboard.html 
                 │ ├── add_expense.html 
                 │ ├── statistics.html 
