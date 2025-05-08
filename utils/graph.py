@@ -16,7 +16,7 @@ def get_db_connection():
             host=os.getenv('POSTGRES_HOST', 'localhost'),
             database=os.getenv('POSTGRES_DB', 'expense_tracker'),
             user=os.getenv('POSTGRES_USER', 'postgres'),
-            password=os.getenv('POSTGRES_PASSWORD', ''),
+            password=os.getenv('POSTGRES_PASSWORD', 'Jeslipriya07'),
             port=os.getenv('POSTGRES_PORT', '5432')
         )
         return conn
