@@ -2,6 +2,7 @@ import psycopg2
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+from decimal import Decimal
 
 # Load environment variables
 load_dotenv()
@@ -13,7 +14,7 @@ def get_db_connection():
             host=os.getenv('POSTGRES_HOST', 'localhost'),
             database=os.getenv('POSTGRES_DB', 'expense_tracker'),
             user=os.getenv('POSTGRES_USER', 'postgres'),
-            password=os.getenv('POSTGRES_PASSWORD', 'Jeslipriya07'),
+            password=os.getenv('POSTGRES_PASSWORD', ''),
             port=os.getenv('POSTGRES_PORT', '5432')
         )
         return conn
@@ -31,13 +32,19 @@ def analyze_spending(user_id, month):
         # Get total income and expenses for the month
         cursor.execute('''
             SELECT 
-                COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END), 0) as income,
-                COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END), 0) as expense
+                COALESCE(SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END)::float, 0) as income,
+                COALESCE(SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END)::float, 0) as expense
             FROM transactions
             WHERE user_id = %s AND to_char(date, 'YYYY-MM') = %s
         ''', (user_id, month))
         
         total_income, total_expense = cursor.fetchone()
+        # Convert to float if they're Decimal
+        if isinstance(total_income, Decimal):
+            total_income = float(total_income)
+        if isinstance(total_expense, Decimal):
+            total_expense = float(total_expense)
+            
         savings = total_income - total_expense
         
         advice = []
@@ -52,7 +59,7 @@ def analyze_spending(user_id, month):
         
         # Get expense breakdown by category
         cursor.execute('''
-            SELECT category, SUM(amount) as total
+            SELECT category, SUM(amount)::float as total
             FROM transactions
             WHERE user_id = %s AND type = 'Expense' AND to_char(date, 'YYYY-MM') = %s
             GROUP BY category
@@ -64,6 +71,9 @@ def analyze_spending(user_id, month):
         if expenses_by_category:
             # Check if any single category is more than 50% of expenses
             for category, amount in expenses_by_category:
+                if isinstance(amount, Decimal):
+                    amount = float(amount)
+                
                 if amount > 0.5 * total_expense:
                     advice.append(f"⚠️ You're spending {amount/total_expense*100:.1f}% of your expenses on '{category}'. Consider diversifying your spending.")
                 
