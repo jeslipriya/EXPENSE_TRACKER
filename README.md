@@ -45,6 +45,7 @@ A full-stack expense management web application that allows users to track incom
             │ ├── app.py 
             ├── expense_data.db (auto-gemerated)
             ├── requirements.txt 
+            ├── .env
             └── .gitignore
 ```
 ## Getting Started
