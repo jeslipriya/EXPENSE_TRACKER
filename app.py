@@ -29,6 +29,16 @@ app.config['VERSION'] = str(datetime.now().timestamp())
 #     'port': os.getenv('POSTGRES_PORT', '5432')
 # }
 
+# def get_db_connection():
+#     """Establishes a connection to the PostgreSQL database."""
+#     try:
+#         conn = psycopg2.connect(**POSTGRES_CONFIG)
+#         return conn
+#     except psycopg2.Error as e:
+#         print(f"Error connecting to PostgreSQL database: {e}")
+#         raise
+
+
 # PostgreSQL configuration
 def get_db_connection():
     """Establishes a connection to the PostgreSQL database."""
