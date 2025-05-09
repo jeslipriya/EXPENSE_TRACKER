@@ -9,7 +9,8 @@ from utils.filters import filter_data
 import os
 from collections import defaultdict
 from dotenv import load_dotenv
-import dj_database_url
+# import dj_database_url
+from urllib.parse import urlparse
 
 # Load environment variables
 load_dotenv()
@@ -32,15 +33,26 @@ app.config['VERSION'] = str(datetime.now().timestamp())
 def get_db_connection():
     """Establishes a connection to the PostgreSQL database."""
     try:
-        db_url = os.getenv('DATABASE_URL')
-        config = dj_database_url.parse(db_url, conn_max_age=600)
-        conn = psycopg2.connect(
-            dbname=config['NAME'],
-            user=config['USER'],
-            password=config['PASSWORD'],
-            host=config['HOST'],
-            port=config['PORT']
-        )
+        # Check if DATABASE_URL exists in environment (for Production)
+        if 'DATABASE_URL' in os.environ:
+            # Use DATABASE_URL from environment
+            url = urlparse(os.environ['DATABASE_URL'])
+            conn = psycopg2.connect(
+                host=url.hostname,
+                database=url.path[1:],  # Skip the leading slash
+                user=url.username,
+                password=url.password,
+                port=url.port
+            )
+        else:
+            # Fallback to local environment variables
+            conn = psycopg2.connect(
+                host=os.getenv('POSTGRES_HOST', 'localhost'),
+                database=os.getenv('POSTGRES_DB', 'expense_tracker'),
+                user=os.getenv('POSTGRES_USER', 'postgres'),
+                password=os.getenv('POSTGRES_PASSWORD'),
+                port=os.getenv('POSTGRES_PORT', '5432')
+            )
         return conn
     except psycopg2.Error as e:
         print(f"Error connecting to PostgreSQL database: {e}")
