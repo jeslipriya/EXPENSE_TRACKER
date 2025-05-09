@@ -7,6 +7,8 @@ from decimal import Decimal
 # Load environment variables
 load_dotenv()
 
+#for local server
+
 # def get_db_connection():
 #     """Establishes a connection to the PostgreSQL database."""
 #     try:
