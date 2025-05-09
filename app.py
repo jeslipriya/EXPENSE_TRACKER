@@ -9,6 +9,7 @@ from utils.filters import filter_data
 import os
 from collections import defaultdict
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables
 load_dotenv()
@@ -17,19 +18,29 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'awsedrftgyhujikolp')
 app.config['VERSION'] = str(datetime.now().timestamp())
 
-# PostgreSQL configuration
-POSTGRES_CONFIG = {
-    'host': os.getenv('POSTGRES_HOST', 'localhost'),
-    'database': os.getenv('POSTGRES_DB', 'expense_tracker'),
-    'user': os.getenv('POSTGRES_USER', 'postgres'),
-    'password': os.getenv('POSTGRES_PASSWORD', 'Jeslipriya07'),
-    'port': os.getenv('POSTGRES_PORT', '5432')
-}
+#for testing
 
+# POSTGRES_CONFIG = {
+#     'host': os.getenv('POSTGRES_HOST', 'localhost'),
+#     'database': os.getenv('POSTGRES_DB', 'expense_tracker'),
+#     'user': os.getenv('POSTGRES_USER', 'postgres'),
+#     'password': os.getenv('POSTGRES_PASSWORD', 'Jeslipriya07'),
+#     'port': os.getenv('POSTGRES_PORT', '5432')
+# }
+
+# PostgreSQL configuration
 def get_db_connection():
     """Establishes a connection to the PostgreSQL database."""
     try:
-        conn = psycopg2.connect(**POSTGRES_CONFIG)
+        db_url = os.getenv('DATABASE_URL')
+        config = dj_database_url.parse(db_url, conn_max_age=600)
+        conn = psycopg2.connect(
+            dbname=config['NAME'],
+            user=config['USER'],
+            password=config['PASSWORD'],
+            host=config['HOST'],
+            port=config['PORT']
+        )
         return conn
     except psycopg2.Error as e:
         print(f"Error connecting to PostgreSQL database: {e}")
