@@ -7,6 +7,14 @@ body {
     color: #333;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+ul, ol {
+    padding-left: 1.2rem;
+}
+
 .container {
     width: 80%;
     margin: auto;
@@ -19,7 +27,8 @@ body {
 }
 
 header {
-    background: #35424a;
+    /* background: #35424a; */
+    background: linear-gradient(45deg, #35424a, #222);
     color: #ffffff;
     padding-top: 30px;
     min-height: 70px;
@@ -90,8 +99,10 @@ header a:hover {
 }
 
 .card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
     border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 10px 0;
@@ -280,6 +291,12 @@ header a:hover {
     box-sizing: border-box;
 }
 
+input:focus {
+    outline: none;
+    border-color: #e8491d;
+    box-shadow: 0 0 5px #e8491d44;
+  }
+  
 .form-group textarea {
     height: 100px;
     resize: vertical;
@@ -311,6 +328,15 @@ header a:hover {
     background-color: #3a5a8f;
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e8491d;
+    border-radius: 5px;
+  }
+  
 /* responsive */
 
 @media (max-width: 768px) {
